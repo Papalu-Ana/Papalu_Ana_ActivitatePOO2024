@@ -1,20 +1,61 @@
-// Fisier1.cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+using namespace std;
 
-int main()
-{
-    std::cout << "Hello World!\n";
+struct Apartament {
+	char* adresa;
+	string proprietar;
+	int nrcamere;
+	float suprafata;
+};
+void afisareApartament(Apartament* ap) {
+
+	cout << "Adresa:" << ap->adresa << endl;
+	cout << "Proprietar:" << ap->proprietar << endl;
+	cout << "nrcamere:" << ap->nrcamere << endl;
+	cout << "suprafta:" << ap->suprafata << endl;
 }
+Apartament citireApartament() {
+	Apartament ap;
+	cout << "Adresa:";
+	char buffer[100];
+	cin >> buffer;
+	ap.adresa = new char [ strlen(buffer) + 1];
+	strcpy_s(ap.adresa, strlen(buffer) + 1, buffer);
+	cout << "Proprietar:";
+	cin >> ap.proprietar;
+	cout << "nrcamere:";
+	cin >> ap.nrcamere;
+	cout << "supraf:";
+	cin >> ap.suprafata;
+	return ap;
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+}
+int main() {
+	Apartament ap;
+	ap.nrcamere = 3;
+	Apartament* pointer;
+	pointer = new Apartament();
+	pointer->nrcamere = 5;
+	pointer->proprietar = "Gigel";
+	pointer->adresa = new char[strlen("Bucuresti") + 1];
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	strcpy_s(pointer->adresa, strlen("Bucuresti") + 1, "Bucuresti");
+	pointer->suprafata = 120;
+
+	afisareApartament(pointer);
+	delete pointer;
+	int nrApartamente = 2;
+	Apartament* apartamente;
+	apartamente = new Apartament[nrApartamente];
+	for (int i = 0; i < nrApartamente; i++) {
+		apartamente[i] = citireApartament();
+	}
+	for (int i = 0; i < nrApartamente; i++) {
+		afisareApartament(&(apartamente[i]));
+	}
+	for (int i = 0; i < nrApartamente; i++) {
+		delete[]apartamente[i].adresa;
+	}
+	delete[]apartamente;
+	return 0;
+}
